@@ -205,6 +205,7 @@ object SimpleStreamTransducers {
   }
 
   object Process {
+
     /** Various Processing States: */
     /** Indicates to the driver (state machine) that the head value from the stream should be emitted to the output stream. */
     case class Emit[I, O](head: O, tail: Process[I, O] = Halt[I, O]()) extends Process[I, O]
@@ -269,7 +270,7 @@ object SimpleStreamTransducers {
     def sum: Process[Double, Double] = {
       def go(acc: Double): Process[Double, Double] =
         await(d => emit(d + acc, go(d + acc)))
-
+      //Kicks off the loop
       go(0.0)
     }
 
@@ -341,8 +342,15 @@ object SimpleStreamTransducers {
     /**
       * Exercise 15.3:
       * Implement `mean`.
+      * It should emit a running average of the value seen so far.
       */
-    def mean: Process[Double, Double] = ???
+    def mean: Process[Double, Double] = {
+      def go(sum: Double, count:Double) : Process[Double, Double] =
+        //Reading value from the stream wit Await and emitting the values from stream with Emit(h, t).
+        await{(d:Double) => emit((sum + d) /(count + 1), go(sum + d, count + 1 ))}
+      //Kicks off the loop with initial values.
+      go(0.0, 0.0)
+    }
 
     def loop[S, I, O](z: S)(f: (I, S) => (O, S)): Process[I, O] =
       await((i: I) => f(i, z) match {
@@ -1015,7 +1023,7 @@ object GeneralizedStreamTransducers {
 }
 */
 
-object ProcessTest extends App {
+object ProcessApp extends App {
   //import GeneralizedStreamTransducers._
   //import fpinscala.iomonad.IO
 
@@ -1032,6 +1040,14 @@ object ProcessTest extends App {
   //Process, sum
   val s = sum(Stream(1.0, 2.0, 3.0, 4.0)).toList
   println(s"> sum: $s")
+
+  //val c = count(Stream("a", "b", "c"))
+  val c2 = count2(Stream("a", "b", "c")).toList
+  //println(s"> count: $c")
+  println(s"> count2: $c2")
+
+  val m = mean(Stream(1,2,3,4,5)).toList
+  println(s"> mean: $m")
 
   //val p = eval(IO { println("woot"); 1 }).repeat
   //val p2 = eval(IO { println("cleanup"); 2 } ).onHalt {
