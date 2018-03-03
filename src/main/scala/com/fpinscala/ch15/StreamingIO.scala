@@ -205,7 +205,6 @@ object SimpleStreamTransducers {
   }
 
   object Process {
-
     /** Various Processing States: */
     /** Indicates to the driver (state machine) that the head value from the stream should be emitted to the output stream. */
     case class Emit[I, O](head: O, tail: Process[I, O] = Halt[I, O]()) extends Process[I, O]
