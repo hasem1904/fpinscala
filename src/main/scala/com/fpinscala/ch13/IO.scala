@@ -1,7 +1,5 @@
 package com.fpinscala.ch13
 
-import java.nio.ByteBuffer
-
 import com.fpinscala.ch7.Par
 import com.fpinscala.ch7.Par.Par
 
@@ -9,7 +7,6 @@ import scala.io.StdIn.readLine
 import scala.language.{higherKinds, postfixOps}
 
 object IO0 {
-
   /**
     * Our first attempt at data type for representing computations that
     * may perform I/O. Has a simple 'interpreter' baked in--the `run`
@@ -708,8 +705,6 @@ object IO3 {
     * by reading from an `AsynchronousFileChannel`, a `java.nio` class
     * which supports asynchronous reads.
     */
-  import java.nio._
-  import java.nio.channels._
 
   /*def read(file: AsynchronousFileChannel, fromPosition: Long, numBytes: Int): Par[Either[Throwable, Array[Byte]]] =
     Par.async { (cb: Either[Throwable, Array[Byte]] => Unit) =>

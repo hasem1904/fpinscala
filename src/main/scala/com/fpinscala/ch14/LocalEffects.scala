@@ -192,7 +192,7 @@ object Immutable {
     * The partition method partitions a portion of the array into elements less than
     * and greater than a pivot.
     */
-  def partition[S](a: STArray[S, Int], l: Int, r: Int, pivot: Int): ST[S, Int] = for {
+ /* def partition[S](a: STArray[S, Int], l: Int, r: Int, pivot: Int): ST[S, Int] = for {
     vp <- a.read(pivot) //read the pivotValue
     _ <- a.swap(pivot, r) //swaps to elements in the array
     j <- STRef(l) //STRef, mutable state
@@ -208,20 +208,20 @@ object Immutable {
     } yield ()) //Sort/swap right of the pivot part of the array.
     x <- j.read //Read STRef value
     _ <- a.swap(x, r) //Swap the values to the right elements in the array of the pivot.
-  } yield x //return x /pivot value.
+  } yield x //return x /pivot value.*/
 
   /**
     * Exercise 14.2:
     * The qs method sorts a portion of the array in place.
     */
-  def qs[S](a: STArray[S, Int], l: Int, r: Int): ST[S, Unit] = if (l < r) for {
+ /* def qs[S](a: STArray[S, Int], l: Int, r: Int): ST[S, Unit] = if (l < r) for {
     pi: Int <- partition(a, l, r, l + (r - l) / 2) //Returns a partition index of the array into elements less than and greater than a pivot.
     _ <- qs(a, l, pi - 1) //Recursivly sort the left part of the array.
     _ <- qs(a, pi + 1, r) //Recursivly sort the right part of the array.
-  } yield () else noop[S] //Returns a ST(S, Unit) action or an action that does nothing.
+  } yield () else noop[S] //Returns a ST(S, Unit) action or an action that does nothing.*/
 
   /** quicksort with the ST monad */
-  def quicksort(xs: List[Int]): List[Int] =
+  /*def quicksort(xs: List[Int]): List[Int] =
     if (xs.isEmpty) xs else ST.runST(new RunnableST[List[Int]] {
       def apply[S] = for {
         arr <- STArray.fromList(xs)
@@ -229,7 +229,7 @@ object Immutable {
         _ <- qs(arr, 0, size - 1)
         sorted <- arr.freeze
       } yield sorted
-    })
+    })*/
 }
 
 /**

@@ -4,14 +4,14 @@ class FahrenheitToCelsius{
   import IO1._
 
   /** Org. code */
-  def farenheitToCelsius(f: Double): Double =
+  def fahrenheitToCelsius(f: Double): Double =
     (f - 32) * 5.0 / 9.0
 
   /** The converter method WITH side effects*/
   def converter: Unit = {
     println("Enter the temperature in degress Fahrenheit: ")
     val d = scala.io.StdIn.readLine.toDouble
-    println(farenheitToCelsius(d))
+    println(fahrenheitToCelsius(d))
   }
 
   /** Using the IO Monad */
@@ -22,7 +22,7 @@ class FahrenheitToCelsius{
   def converterIO: IO[Unit] = for {
     _ <- PrintLine("Enter the temperature in degress Fahrenheit: ")
     d <- ReadLine.map(_.toDouble) //Using the monadic combinators map from IO Monad.
-    _ <- PrintLine(farenheitToCelsius(d).toString)
+    _ <- PrintLine(fahrenheitToCelsius(d).toString)
   } yield ()
 
   /**
